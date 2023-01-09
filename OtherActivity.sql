@@ -6,6 +6,11 @@ SELECT Plan_number
 	,MONTH(Calendar_day) AS Months
 	,Transact
 	,Transaction_type
+   ,CASE
+		WHEN FUND LIKE 'SA2A%' THEN 'UHAL'
+		WHEN FUND IN ('SA2F-AMERCO SERIES N STCK') THEN 'UHAL.B'
+		WHEN FUND IN ('0458-FID GOVT MMKT') THEN 'MMKT'
+		ELSE 'Unknown' END AS Funds
 	,Fund
 	,SUM(Cash_amount) AS CashTotal
 	,SUM(Share_amount) AS ShareTotal
@@ -19,3 +24,9 @@ GROUP BY Plan_number ,YEAR(Calendar_day) ,Transact ,Transaction_type ,Fund, MONT
 	,CASE WHEN SSN = '999-99-9999F' THEN 'Forfeiture'
 		WHEN SSN = '999-99-9999S' THEN 'Suspense'
 		ELSE 'Participant' END
+	,CASE
+		WHEN FUND LIKE 'SA2A%' THEN 'UHAL'
+		WHEN FUND IN ('SA2F-AMERCO SERIES N STCK') THEN 'UHAL.B'
+		WHEN FUND IN ('0458-FID GOVT MMKT') THEN 'MMKT'
+		ELSE 'Unknown' END
+ORDER BY YEAR(Calendar_day) DESC, MONTH(Calendar_day) DESC
