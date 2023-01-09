@@ -6,7 +6,11 @@ Make a distinction between the Cash, B stock, and normal (original) stock.
 SELECT 
 	Plan_number
     ,Calendar_day
-    ,Fund
+	,CASE
+		WHEN FUND LIKE 'SA2A%' THEN 'UHAL'
+		WHEN FUND IN ('SA2F-AMERCO SERIES N STCK') THEN 'UHAL.B'
+		WHEN FUND IN ('0458-FID GOVT MMKT') THEN 'MMKT'
+		ELSE 'Unknown' END AS Fund_IDs
 	,COUNT(SSN) AS TM_Counts
 	,SUM(Market_value) AS MKTValue_Total
 	,SUM(Share_balance) AS ShareTotal
