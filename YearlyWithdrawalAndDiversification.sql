@@ -6,7 +6,11 @@ Does not distinguish between the two share types.
 SELECT 
 	Plan_number
     ,YEAR(Calendar_day) AS Years
-   ,Fund
+   ,CASE
+		WHEN FUND LIKE 'SA2A%' THEN 'UHAL'
+		WHEN FUND IN ('SA2F-AMERCO SERIES N STCK') THEN 'UHAL.B'
+		WHEN FUND IN ('0458-FID GOVT MMKT') THEN 'MMKT'
+		ELSE 'Unknown' END AS Funds
     ,Transaction_type
 	,COUNT(DISTINCT SSN) AS TM_Counts
 	,SUM(Share_amount) AS Shares
@@ -20,4 +24,9 @@ GROUP BY
     ,YEAR(Calendar_day)
     ,Fund
     ,Transaction_type
+	,CASE
+		WHEN FUND LIKE 'SA2A%' THEN 'UHAL'
+		WHEN FUND IN ('SA2F-AMERCO SERIES N STCK') THEN 'UHAL.B'
+		WHEN FUND IN ('0458-FID GOVT MMKT') THEN 'MMKT'
+		ELSE 'Unknown' END
 ORDER BY YEAR(Calendar_day) DESC, Transaction_type ASC
