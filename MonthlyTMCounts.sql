@@ -19,14 +19,14 @@ FROM (
 	SELECT Plan_number, Calendar_day, SSN, Smid, full_name, Fund, Market_value, Share_balance 
 	FROM [DevRaw].[dbo].[Fund_Balances_n_CostBasis_EOM]
 	WHERE Plan_number = '75952'
-		AND Fund = 'SA2A-AMERCO STOCK'
+		AND Fund LIKE 'SA2A%'
 	) AS UHAL
 --LEFT JOIN a Subquery that grabs everyone and balances if the fund is UHALB shares only. 
 FULL JOIN (
 	SELECT 	Plan_number, Calendar_day, SSN, Smid, full_name, Fund, Market_value, Share_balance 
 	FROM [DevRaw].[dbo].[Fund_Balances_n_CostBasis_EOM]
 	WHERE Plan_number = '75952'
-		AND Fund = 'SA2F-AMERCO SERIES N STCK'
+		AND Fund LIKE 'SA2F%'
 	) AS UHALB
 --Joining on SSNs and Calendar Day Should be enough.	
 	ON UHAL.SSN = UHALB.SSN
